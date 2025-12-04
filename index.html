@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paralegal Task Deconstruction Tool</title>
+    <title>NY Legal Paralegal Tool</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Inline styles for backward compatibility -->
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -1733,13 +1739,209 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-tasks"></i> Paralegal Task Deconstruction Tool</h1>
-            <p class="subtitle">Demonstrate how legal tasks can be broken down into automatable components. Enter a paralegal task to see its detailed breakdown and automation potential.</p>
-        </header>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
 
-        <!-- Settings Panel -->
+    <!-- Authentication Section -->
+    <div id="authSection" class="auth-container" style="display: none;">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1><i class="fas fa-balance-scale"></i> NY Legal Paralegal Tool</h1>
+                <p>Enterprise legal task management for New York practices</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-form="login">Sign In</button>
+                <button class="auth-tab" data-form="register">Register</button>
+            </div>
+
+            <div id="authError" class="auth-error"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" name="email" id="loginEmail" required placeholder="you@lawfirm.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" name="password" id="loginPassword" required placeholder="Your password">
+                </div>
+                <div class="forgot-password">
+                    <a href="#" onclick="resetPassword(document.getElementById('loginEmail').value)">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" name="fullName" id="registerName" required placeholder="John Smith">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" name="email" id="registerEmail" required placeholder="you@lawfirm.com">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" name="password" id="registerPassword" required placeholder="Min 8 characters" minlength="8">
+                </div>
+                <div class="form-group">
+                    <label for="registerFirm">Firm Name</label>
+                    <input type="text" name="firmName" id="registerFirm" placeholder="Your Law Firm, PLLC">
+                </div>
+                <div class="form-group">
+                    <label for="registerRole">Role</label>
+                    <select name="role" id="registerRole">
+                        <option value="paralegal">Paralegal</option>
+                        <option value="attorney">Attorney</option>
+                        <option value="assistant">Legal Assistant</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <div class="demo-notice">
+                <i class="fas fa-play-circle"></i>
+                <a href="#" id="demoLoginBtn">Try Demo Mode</a> - No account required
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div id="appContent">
+        <!-- App Header with User Info -->
+        <div class="app-header">
+            <div class="app-logo">
+                <i class="fas fa-balance-scale"></i>
+                <h1>NY Legal Paralegal Tool</h1>
+            </div>
+            <div class="user-menu">
+                <div class="user-info" id="userInfo">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Demo User</div>
+                        <div class="user-role" id="userRole">Paralegal</div>
+                    </div>
+                </div>
+                <button class="btn btn-small btn-secondary" id="logoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Navigation -->
+        <div class="dashboard-nav" style="display: none;">
+            <button class="nav-tab active" data-view="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+            <button class="nav-tab" data-view="clients">
+                <i class="fas fa-users"></i> Clients
+            </button>
+            <button class="nav-tab" data-view="matters">
+                <i class="fas fa-folder-open"></i> Matters
+            </button>
+            <button class="nav-tab" data-view="tasks">
+                <i class="fas fa-tasks"></i> Tasks
+            </button>
+        </div>
+
+        <!-- Practice Area Tabs -->
+        <div class="practice-area-tabs" style="display: none;">
+            <button class="practice-tab active" data-area="all">
+                <i class="fas fa-th"></i> All
+            </button>
+            <button class="practice-tab" data-area="personal-injury">
+                <i class="fas fa-user-injured"></i> Personal Injury
+            </button>
+            <button class="practice-tab" data-area="family-law">
+                <i class="fas fa-users"></i> Family Law
+            </button>
+            <button class="practice-tab" data-area="real-estate">
+                <i class="fas fa-home"></i> Real Estate
+            </button>
+            <button class="practice-tab" data-area="criminal-defense">
+                <i class="fas fa-gavel"></i> Criminal Defense
+            </button>
+        </div>
+
+        <!-- Dashboard Stats (hidden by default, shown when dashboard enabled) -->
+        <div class="dashboard-stats" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-icon clients"><i class="fas fa-users"></i></div>
+                <div class="stat-content">
+                    <h3 id="clientsCount">0</h3>
+                    <p>Total Clients</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon matters"><i class="fas fa-folder-open"></i></div>
+                <div class="stat-content">
+                    <h3 id="mattersCount">0</h3>
+                    <p>Active Matters</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon tasks"><i class="fas fa-tasks"></i></div>
+                <div class="stat-content">
+                    <h3 id="tasksCount">0</h3>
+                    <p>Pending Tasks</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon deadlines"><i class="fas fa-clock"></i></div>
+                <div class="stat-content">
+                    <h3 id="deadlinesCount">0</h3>
+                    <p>Upcoming Deadlines</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Sections (for dashboard mode) -->
+        <div id="dashboardView" class="view-section" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="dashboard-section">
+                    <h3>
+                        <span><i class="fas fa-folder-open"></i> Recent Matters</span>
+                        <a href="#" class="section-action" onclick="switchView('matters')">View All</a>
+                    </h3>
+                    <div class="matter-list" id="recentMattersList">
+                        <div class="empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No matters yet. Create your first matter to get started.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-section">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    <div class="activity-list" id="activityFeed">
+                        <div class="empty-state">
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="clientsView" class="view-section" style="display: none;"></div>
+        <div id="mattersView" class="view-section" style="display: none;"></div>
+        <div id="tasksView" class="view-section" style="display: none;"></div>
+        <div id="reportsView" class="view-section" style="display: none;"></div>
+
+        <!-- Original App Container -->
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-tasks"></i> Task Deconstruction</h1>
+                <p class="subtitle">Break down legal tasks into automatable components. Select a NY practice area or enter a custom task.</p>
+            </header>
+
+            <!-- Settings Panel -->
         <div class="settings-panel">
             <div class="settings-header" onclick="toggleSettings()">
                 <h3><i class="fas fa-cog"></i> API Settings</h3>
@@ -2179,6 +2381,7 @@
             </div>
         </div>
     </div>
+    </div><!-- End of appContent -->
 
     <script>
         // ============================================
@@ -3977,11 +4180,21 @@ Respond with ONLY valid JSON, no additional text.`;
             return genericBreakdown;
         }
 
-        // Initialize with an example
-        document.addEventListener('DOMContentLoaded', function() {
-            taskInput.value = "Draft a complaint for a civil lawsuit";
-            deconstructTask();
-        });
+        // Initialize with an example (only for original task deconstruction)
+        function initTaskDeconstruction() {
+            if (taskInput) {
+                taskInput.value = "Draft a complaint for a civil lawsuit";
+                deconstructTask();
+            }
+        }
     </script>
+
+    <!-- Modular JavaScript Files -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="data/ny-legal-references.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
