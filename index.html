@@ -885,6 +885,337 @@
             color: #1565c0;
             border: 1px solid #bbdefb;
         }
+
+        /* Side Panel Styles */
+        .side-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
+
+        .side-panel-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 600px;
+            max-width: 100%;
+            height: 100%;
+            background-color: #f5f7fa;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+            transition: right 0.3s ease-out;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .side-panel.active {
+            right: 0;
+        }
+
+        .side-panel-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+
+        .side-panel-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            padding-right: 15px;
+        }
+
+        .side-panel-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .side-panel-close:hover {
+            opacity: 1;
+        }
+
+        .side-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .side-panel-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .side-panel-section h4 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        /* Component Audio Tabs in Side Panel */
+        .component-audio-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--light-color);
+            margin-bottom: 15px;
+        }
+
+        .component-audio-tab {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .component-audio-tab:hover {
+            color: var(--secondary-color);
+        }
+
+        .component-audio-tab.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .component-tab-content {
+            display: none;
+        }
+
+        .component-tab-content.active {
+            display: block;
+        }
+
+        /* Compact file drop zone for side panel */
+        .compact-drop-zone {
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+
+        .compact-drop-zone:hover,
+        .compact-drop-zone.dragover {
+            border-color: var(--secondary-color);
+            background-color: #f0f7ff;
+        }
+
+        .compact-drop-zone i {
+            font-size: 2rem;
+            color: #bbb;
+            margin-bottom: 10px;
+        }
+
+        .compact-drop-zone p {
+            color: #666;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Compact recording area */
+        .compact-recording {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .compact-record-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .compact-record-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .compact-record-btn.recording {
+            animation: pulse 1.5s infinite;
+            background-color: #c0392b;
+        }
+
+        /* Component Form Styles */
+        .component-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .component-form-grid.two-col {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 500px) {
+            .component-form-grid.two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .component-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .component-field label {
+            font-size: 0.85rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .component-field input,
+        .component-field textarea,
+        .component-field select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .component-field input:focus,
+        .component-field textarea:focus,
+        .component-field select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .component-field textarea {
+            min-height: 70px;
+            resize: vertical;
+        }
+
+        .component-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Clickable component items */
+        .component-item.clickable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .component-item.clickable::after {
+            content: '\f054';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            color: #ccc;
+            transition: all 0.2s;
+        }
+
+        .component-item.clickable:hover::after {
+            color: var(--secondary-color);
+            right: 10px;
+        }
+
+        .component-item.clickable:hover {
+            background-color: #f8f9fa;
+        }
+
+        .component-item.has-data {
+            border-left-color: var(--success-color);
+        }
+
+        .component-item.has-data .component-text::after {
+            content: ' ✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        /* Side panel actions */
+        .side-panel-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Transcript area in side panel */
+        .component-transcript {
+            margin-top: 15px;
+        }
+
+        .component-transcript textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .component-transcript textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        /* Component status indicator */
+        .component-status {
+            padding: 10px 12px;
+            border-radius: var(--border-radius);
+            margin-top: 12px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .component-status.show {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
 </head>
 <body>
@@ -1237,6 +1568,102 @@
             <p>Paralegal Task Deconstruction Tool | Designed to demonstrate task analysis for automation potential</p>
             <p>This tool is for demonstration purposes and does not constitute legal advice.</p>
         </footer>
+    </div>
+
+    <!-- Component Side Panel -->
+    <div class="side-panel-overlay" id="sidePanelOverlay" onclick="closeSidePanel()"></div>
+    <div class="side-panel" id="sidePanel">
+        <div class="side-panel-header">
+            <h3 id="sidePanelTitle">Component Details</h3>
+            <button class="side-panel-close" onclick="closeSidePanel()">&times;</button>
+        </div>
+        <div class="side-panel-body">
+            <!-- Audio Input Section -->
+            <div class="side-panel-section">
+                <h4><i class="fas fa-microphone-alt"></i> Audio Input</h4>
+
+                <div class="component-audio-tabs">
+                    <button class="component-audio-tab active" data-ctab="upload" onclick="switchComponentTab('upload')">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                    <button class="component-audio-tab" data-ctab="record" onclick="switchComponentTab('record')">
+                        <i class="fas fa-microphone"></i> Record
+                    </button>
+                    <button class="component-audio-tab" data-ctab="paste" onclick="switchComponentTab('paste')">
+                        <i class="fas fa-paste"></i> Paste
+                    </button>
+                </div>
+
+                <!-- Upload Tab -->
+                <div class="component-tab-content active" id="ctab-upload">
+                    <div class="compact-drop-zone" id="componentDropZone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drop audio file or click to browse</p>
+                    </div>
+                    <input type="file" id="componentAudioFile" class="file-input" accept="audio/*,.mp3,.wav,.m4a,.webm,.mp4">
+                    <div id="componentSelectedFile" class="selected-file" style="display: none;">
+                        <span><i class="fas fa-file-audio"></i> <span id="componentFileName"></span></span>
+                        <button class="remove-file" onclick="removeComponentFile()"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <!-- Record Tab -->
+                <div class="component-tab-content" id="ctab-record">
+                    <div class="compact-recording">
+                        <button class="compact-record-btn" id="componentRecordBtn" onclick="toggleComponentRecording()">
+                            <i class="fas fa-microphone" id="componentRecordIcon"></i>
+                        </button>
+                        <p id="componentRecordingStatus">Click to record</p>
+                        <p class="recording-time" id="componentRecordingTime">00:00</p>
+                    </div>
+                </div>
+
+                <!-- Paste Tab -->
+                <div class="component-tab-content" id="ctab-paste">
+                    <textarea id="componentPasteTranscript" class="transcript-text" style="min-height: 100px;" placeholder="Paste your transcript here..."></textarea>
+                    <button class="btn btn-small" style="margin-top: 10px;" onclick="useComponentTranscript()">
+                        <i class="fas fa-arrow-right"></i> Use Transcript
+                    </button>
+                </div>
+
+                <!-- Transcribe Button -->
+                <button class="btn btn-deconstruct" style="margin-top: 15px; width: 100%;" onclick="transcribeComponentAudio()">
+                    <i class="fas fa-language"></i> Transcribe Audio
+                </button>
+
+                <div id="componentStatus" class="component-status"></div>
+
+                <!-- Transcript Display -->
+                <div class="component-transcript" id="componentTranscriptArea" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: 600; color: var(--primary-color);">Transcript</label>
+                        <button class="btn btn-small btn-success" onclick="extractComponentInfo()">
+                            <i class="fas fa-magic"></i> Extract Info
+                        </button>
+                    </div>
+                    <textarea id="componentTranscriptText" placeholder="Transcript will appear here..."></textarea>
+                </div>
+            </div>
+
+            <!-- Dynamic Form Section -->
+            <div class="side-panel-section">
+                <h4><i class="fas fa-clipboard-list"></i> <span id="componentFormTitle">Extracted Information</span></h4>
+                <div id="componentFormContainer">
+                    <!-- Form fields will be dynamically inserted here -->
+                </div>
+                <div class="side-panel-actions">
+                    <button class="btn btn-small btn-success" onclick="saveComponentData()">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <button class="btn btn-small" onclick="copyComponentData()">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-small btn-secondary" onclick="clearComponentForm()">
+                        <i class="fas fa-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1789,7 +2216,837 @@ Extracted: ${new Date(data.extractedAt).toLocaleString()}`;
         document.addEventListener('DOMContentLoaded', function() {
             loadSettings();
             setupFileUpload();
+            setupComponentFileUpload();
         });
+
+        // ============================================
+        // COMPONENT SIDE PANEL FUNCTIONALITY
+        // ============================================
+
+        // Component state
+        let currentComponent = null;
+        let componentAudioFile = null;
+        let componentRecordedBlob = null;
+        let componentMediaRecorder = null;
+        let componentRecordingTimer = null;
+        let componentRecordingSeconds = 0;
+        let componentDataStore = {}; // Store data for each component
+
+        // Component form definitions - each component has its own form structure
+        const componentForms = {
+            "Review case facts and client information": {
+                title: "Case Facts & Client Information",
+                icon: "fas fa-user-tie",
+                fields: [
+                    { id: "clientFullName", label: "Client Full Name", type: "text", fullWidth: false },
+                    { id: "clientContact", label: "Contact Information", type: "text", fullWidth: false },
+                    { id: "caseBackground", label: "Case Background", type: "textarea", fullWidth: true },
+                    { id: "keyFacts", label: "Key Facts", type: "textarea", fullWidth: true },
+                    { id: "relevantDates", label: "Relevant Dates", type: "textarea", fullWidth: true },
+                    { id: "documentsSources", label: "Documents & Sources Reviewed", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract case facts and client information from this transcript. Return JSON with:
+                    {"clientFullName": "", "clientContact": "", "caseBackground": "", "keyFacts": "", "relevantDates": "", "documentsSources": ""}`
+            },
+            "Identify proper jurisdiction and venue": {
+                title: "Jurisdiction & Venue Analysis",
+                icon: "fas fa-map-marker-alt",
+                fields: [
+                    { id: "stateJurisdiction", label: "State Jurisdiction", type: "text", fullWidth: false },
+                    { id: "federalQuestion", label: "Federal Question (if any)", type: "text", fullWidth: false },
+                    { id: "diversityJurisdiction", label: "Diversity Jurisdiction", type: "text", fullWidth: false },
+                    { id: "amountInControversy", label: "Amount in Controversy", type: "text", fullWidth: false },
+                    { id: "properVenue", label: "Proper Venue", type: "text", fullWidth: true },
+                    { id: "venueFactors", label: "Venue Factors", type: "textarea", fullWidth: true },
+                    { id: "jurisdictionNotes", label: "Jurisdiction Analysis Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Analyze jurisdiction and venue from this transcript. Return JSON with:
+                    {"stateJurisdiction": "", "federalQuestion": "", "diversityJurisdiction": "", "amountInControversy": "", "properVenue": "", "venueFactors": "", "jurisdictionNotes": ""}`
+            },
+            "Determine causes of action": {
+                title: "Causes of Action",
+                icon: "fas fa-balance-scale",
+                fields: [
+                    { id: "primaryClaim", label: "Primary Claim/Cause of Action", type: "text", fullWidth: true },
+                    { id: "additionalClaims", label: "Additional Claims", type: "textarea", fullWidth: true },
+                    { id: "elementsAnalysis", label: "Elements Analysis", type: "textarea", fullWidth: true },
+                    { id: "factsSupporting", label: "Facts Supporting Each Element", type: "textarea", fullWidth: true },
+                    { id: "potentialDefenses", label: "Potential Defenses to Consider", type: "textarea", fullWidth: true },
+                    { id: "damagesAvailable", label: "Damages Available", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Identify causes of action from this transcript. Return JSON with:
+                    {"primaryClaim": "", "additionalClaims": "", "elementsAnalysis": "", "factsSupporting": "", "potentialDefenses": "", "damagesAvailable": ""}`
+            },
+            "Research applicable laws and precedents": {
+                title: "Legal Research",
+                icon: "fas fa-search",
+                fields: [
+                    { id: "applicableStatutes", label: "Applicable Statutes", type: "textarea", fullWidth: true },
+                    { id: "relevantCaseLaw", label: "Relevant Case Law", type: "textarea", fullWidth: true },
+                    { id: "keyHoldings", label: "Key Holdings", type: "textarea", fullWidth: true },
+                    { id: "statuteOfLimitations", label: "Statute of Limitations", type: "text", fullWidth: false },
+                    { id: "standardOfProof", label: "Standard of Proof", type: "text", fullWidth: false },
+                    { id: "researchNotes", label: "Research Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract legal research information from this transcript. Return JSON with:
+                    {"applicableStatutes": "", "relevantCaseLaw": "", "keyHoldings": "", "statuteOfLimitations": "", "standardOfProof": "", "researchNotes": ""}`
+            },
+            "Draft caption and parties section": {
+                title: "Caption & Parties",
+                icon: "fas fa-heading",
+                fields: [
+                    { id: "courtName", label: "Court Name", type: "text", fullWidth: true },
+                    { id: "plaintiffNames", label: "Plaintiff Name(s)", type: "textarea", fullWidth: true },
+                    { id: "plaintiffCapacity", label: "Plaintiff Capacity/Status", type: "text", fullWidth: true },
+                    { id: "defendantNames", label: "Defendant Name(s)", type: "textarea", fullWidth: true },
+                    { id: "defendantCapacity", label: "Defendant Capacity/Status", type: "text", fullWidth: true },
+                    { id: "caseNumber", label: "Case Number (if known)", type: "text", fullWidth: false },
+                    { id: "documentTitle", label: "Document Title", type: "text", fullWidth: false }
+                ],
+                extractionPrompt: `Extract caption and parties information from this transcript. Return JSON with:
+                    {"courtName": "", "plaintiffNames": "", "plaintiffCapacity": "", "defendantNames": "", "defendantCapacity": "", "caseNumber": "", "documentTitle": ""}`
+            },
+            "Write factual allegations": {
+                title: "Factual Allegations",
+                icon: "fas fa-file-alt",
+                fields: [
+                    { id: "partiesAllegations", label: "Parties Allegations", type: "textarea", fullWidth: true },
+                    { id: "jurisdictionAllegations", label: "Jurisdictional Allegations", type: "textarea", fullWidth: true },
+                    { id: "factualBackground", label: "Factual Background (chronological)", type: "textarea", fullWidth: true },
+                    { id: "specificIncidents", label: "Specific Incidents/Events", type: "textarea", fullWidth: true },
+                    { id: "injuriesHarms", label: "Injuries/Harms Suffered", type: "textarea", fullWidth: true },
+                    { id: "causation", label: "Causation Statements", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract factual allegations from this transcript. Return JSON with:
+                    {"partiesAllegations": "", "jurisdictionAllegations": "", "factualBackground": "", "specificIncidents": "", "injuriesHarms": "", "causation": ""}`
+            },
+            "Formulate legal claims": {
+                title: "Legal Claims",
+                icon: "fas fa-gavel",
+                fields: [
+                    { id: "countOne", label: "Count I - Claim & Elements", type: "textarea", fullWidth: true },
+                    { id: "countTwo", label: "Count II - Claim & Elements", type: "textarea", fullWidth: true },
+                    { id: "countThree", label: "Count III - Claim & Elements", type: "textarea", fullWidth: true },
+                    { id: "additionalCounts", label: "Additional Counts", type: "textarea", fullWidth: true },
+                    { id: "incorporatedAllegations", label: "Incorporated Allegations", type: "textarea", fullWidth: true },
+                    { id: "legalStandards", label: "Legal Standards Applied", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract legal claims from this transcript. Return JSON with:
+                    {"countOne": "", "countTwo": "", "countThree": "", "additionalCounts": "", "incorporatedAllegations": "", "legalStandards": ""}`
+            },
+            "Draft prayer for relief": {
+                title: "Prayer for Relief",
+                icon: "fas fa-pray",
+                fields: [
+                    { id: "compensatoryDamages", label: "Compensatory Damages", type: "textarea", fullWidth: true },
+                    { id: "punitiveDamages", label: "Punitive Damages", type: "textarea", fullWidth: true },
+                    { id: "injunctiveRelief", label: "Injunctive Relief", type: "textarea", fullWidth: true },
+                    { id: "declaratoryRelief", label: "Declaratory Relief", type: "textarea", fullWidth: true },
+                    { id: "attorneyFees", label: "Attorney Fees & Costs", type: "text", fullWidth: true },
+                    { id: "otherRelief", label: "Other Relief Requested", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract prayer for relief information from this transcript. Return JSON with:
+                    {"compensatoryDamages": "", "punitiveDamages": "", "injunctiveRelief": "", "declaratoryRelief": "", "attorneyFees": "", "otherRelief": ""}`
+            },
+            "Include verification if required": {
+                title: "Verification",
+                icon: "fas fa-check-circle",
+                fields: [
+                    { id: "verificationRequired", label: "Verification Required?", type: "select", options: ["Yes", "No", "Unknown"], fullWidth: false },
+                    { id: "verificationBasis", label: "Basis for Verification Requirement", type: "text", fullWidth: false },
+                    { id: "verifyingParty", label: "Verifying Party", type: "text", fullWidth: false },
+                    { id: "verificationCapacity", label: "Capacity of Verifying Party", type: "text", fullWidth: false },
+                    { id: "verificationLanguage", label: "Verification Language", type: "textarea", fullWidth: true },
+                    { id: "notaryRequired", label: "Notarization Required?", type: "select", options: ["Yes", "No"], fullWidth: false }
+                ],
+                extractionPrompt: `Extract verification requirements from this transcript. Return JSON with:
+                    {"verificationRequired": "", "verificationBasis": "", "verifyingParty": "", "verificationCapacity": "", "verificationLanguage": "", "notaryRequired": ""}`
+            },
+            "Format according to court rules": {
+                title: "Court Formatting Rules",
+                icon: "fas fa-ruler",
+                fields: [
+                    { id: "courtRulesReference", label: "Applicable Court Rules", type: "text", fullWidth: true },
+                    { id: "fontRequirements", label: "Font Requirements", type: "text", fullWidth: false },
+                    { id: "marginRequirements", label: "Margin Requirements", type: "text", fullWidth: false },
+                    { id: "lineSpacing", label: "Line Spacing", type: "text", fullWidth: false },
+                    { id: "pageLimits", label: "Page Limits", type: "text", fullWidth: false },
+                    { id: "filingRequirements", label: "Filing Requirements", type: "textarea", fullWidth: true },
+                    { id: "serviceRequirements", label: "Service Requirements", type: "textarea", fullWidth: true },
+                    { id: "localRulesNotes", label: "Local Rules Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract court formatting rules from this transcript. Return JSON with:
+                    {"courtRulesReference": "", "fontRequirements": "", "marginRequirements": "", "lineSpacing": "", "pageLimits": "", "filingRequirements": "", "serviceRequirements": "", "localRulesNotes": ""}`
+            },
+            // Document Review Components
+            "Receive document production from opposing party": {
+                title: "Document Production Receipt",
+                icon: "fas fa-inbox",
+                fields: [
+                    { id: "productionDate", label: "Date Received", type: "text", fullWidth: false },
+                    { id: "producingParty", label: "Producing Party", type: "text", fullWidth: false },
+                    { id: "volumeOfDocs", label: "Volume (# of documents/pages)", type: "text", fullWidth: false },
+                    { id: "formatReceived", label: "Format Received", type: "text", fullWidth: false },
+                    { id: "batesRange", label: "Bates Range", type: "text", fullWidth: true },
+                    { id: "initialAssessment", label: "Initial Assessment Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract document production information from this transcript. Return JSON with:
+                    {"productionDate": "", "producingParty": "", "volumeOfDocs": "", "formatReceived": "", "batesRange": "", "initialAssessment": ""}`
+            },
+            "Organize documents by source and date": {
+                title: "Document Organization",
+                icon: "fas fa-folder-open",
+                fields: [
+                    { id: "organizationMethod", label: "Organization Method", type: "text", fullWidth: true },
+                    { id: "sourceCategories", label: "Source Categories", type: "textarea", fullWidth: true },
+                    { id: "dateRanges", label: "Date Ranges", type: "textarea", fullWidth: true },
+                    { id: "folderStructure", label: "Folder Structure", type: "textarea", fullWidth: true },
+                    { id: "namingConvention", label: "Naming Convention", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract document organization details from this transcript. Return JSON with:
+                    {"organizationMethod": "", "sourceCategories": "", "dateRanges": "", "folderStructure": "", "namingConvention": ""}`
+            },
+            "Apply relevance criteria to filter documents": {
+                title: "Relevance Criteria",
+                icon: "fas fa-filter",
+                fields: [
+                    { id: "relevanceCriteria", label: "Relevance Criteria", type: "textarea", fullWidth: true },
+                    { id: "keySearchTerms", label: "Key Search Terms", type: "textarea", fullWidth: true },
+                    { id: "dateFilters", label: "Date Filters", type: "text", fullWidth: true },
+                    { id: "custodianFilters", label: "Custodian Filters", type: "textarea", fullWidth: true },
+                    { id: "responsiveCount", label: "Responsive Count", type: "text", fullWidth: false },
+                    { id: "nonResponsiveCount", label: "Non-Responsive Count", type: "text", fullWidth: false }
+                ],
+                extractionPrompt: `Extract relevance criteria from this transcript. Return JSON with:
+                    {"relevanceCriteria": "", "keySearchTerms": "", "dateFilters": "", "custodianFilters": "", "responsiveCount": "", "nonResponsiveCount": ""}`
+            },
+            "Identify privileged materials": {
+                title: "Privilege Review",
+                icon: "fas fa-shield-alt",
+                fields: [
+                    { id: "privilegeTypes", label: "Privilege Types Identified", type: "textarea", fullWidth: true },
+                    { id: "privilegedDocs", label: "Privileged Documents", type: "textarea", fullWidth: true },
+                    { id: "privilegeHolders", label: "Privilege Holders", type: "textarea", fullWidth: true },
+                    { id: "waiverConcerns", label: "Waiver Concerns", type: "textarea", fullWidth: true },
+                    { id: "privilegeLogNotes", label: "Privilege Log Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract privilege review information from this transcript. Return JSON with:
+                    {"privilegeTypes": "", "privilegedDocs": "", "privilegeHolders": "", "waiverConcerns": "", "privilegeLogNotes": ""}`
+            },
+            "Flag key documents for case strategy": {
+                title: "Key Documents",
+                icon: "fas fa-star",
+                fields: [
+                    { id: "hotDocuments", label: "Hot Documents", type: "textarea", fullWidth: true },
+                    { id: "supportingDocs", label: "Supporting Documents", type: "textarea", fullWidth: true },
+                    { id: "damagingDocs", label: "Potentially Damaging Documents", type: "textarea", fullWidth: true },
+                    { id: "strategicNotes", label: "Strategic Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract key document information from this transcript. Return JSON with:
+                    {"hotDocuments": "", "supportingDocs": "", "damagingDocs": "", "strategicNotes": ""}`
+            },
+            "Code documents for easy retrieval": {
+                title: "Document Coding",
+                icon: "fas fa-tags",
+                fields: [
+                    { id: "issueTags", label: "Issue Tags", type: "textarea", fullWidth: true },
+                    { id: "witnessConnections", label: "Witness Connections", type: "textarea", fullWidth: true },
+                    { id: "dateCategories", label: "Date Categories", type: "textarea", fullWidth: true },
+                    { id: "documentTypes", label: "Document Types", type: "textarea", fullWidth: true },
+                    { id: "codingNotes", label: "Coding Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract document coding information from this transcript. Return JSON with:
+                    {"issueTags": "", "witnessConnections": "", "dateCategories": "", "documentTypes": "", "codingNotes": ""}`
+            },
+            "Prepare document summaries": {
+                title: "Document Summaries",
+                icon: "fas fa-file-contract",
+                fields: [
+                    { id: "documentId", label: "Document ID/Bates", type: "text", fullWidth: false },
+                    { id: "documentDate", label: "Document Date", type: "text", fullWidth: false },
+                    { id: "author", label: "Author", type: "text", fullWidth: false },
+                    { id: "recipients", label: "Recipients", type: "text", fullWidth: false },
+                    { id: "summaryText", label: "Summary", type: "textarea", fullWidth: true },
+                    { id: "keyQuotes", label: "Key Quotes", type: "textarea", fullWidth: true },
+                    { id: "significance", label: "Significance to Case", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract document summary information from this transcript. Return JSON with:
+                    {"documentId": "", "documentDate": "", "author": "", "recipients": "", "summaryText": "", "keyQuotes": "", "significance": ""}`
+            },
+            "Identify patterns and connections": {
+                title: "Patterns & Connections",
+                icon: "fas fa-project-diagram",
+                fields: [
+                    { id: "communicationPatterns", label: "Communication Patterns", type: "textarea", fullWidth: true },
+                    { id: "timelinePatterns", label: "Timeline Patterns", type: "textarea", fullWidth: true },
+                    { id: "keyRelationships", label: "Key Relationships", type: "textarea", fullWidth: true },
+                    { id: "inconsistencies", label: "Inconsistencies Found", type: "textarea", fullWidth: true },
+                    { id: "patternNotes", label: "Analysis Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract patterns and connections from this transcript. Return JSON with:
+                    {"communicationPatterns": "", "timelinePatterns": "", "keyRelationships": "", "inconsistencies": "", "patternNotes": ""}`
+            },
+            "Prepare privilege log": {
+                title: "Privilege Log",
+                icon: "fas fa-clipboard-list",
+                fields: [
+                    { id: "batesNumber", label: "Bates Number", type: "text", fullWidth: false },
+                    { id: "docDate", label: "Date", type: "text", fullWidth: false },
+                    { id: "docAuthor", label: "Author", type: "text", fullWidth: false },
+                    { id: "docRecipients", label: "Recipients", type: "text", fullWidth: false },
+                    { id: "privilegeAsserted", label: "Privilege Asserted", type: "text", fullWidth: true },
+                    { id: "privilegeBasis", label: "Basis for Privilege", type: "textarea", fullWidth: true },
+                    { id: "docDescription", label: "Document Description", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract privilege log information from this transcript. Return JSON with:
+                    {"batesNumber": "", "docDate": "", "docAuthor": "", "docRecipients": "", "privilegeAsserted": "", "privilegeBasis": "", "docDescription": ""}`
+            },
+            "Generate review report": {
+                title: "Review Report",
+                icon: "fas fa-chart-bar",
+                fields: [
+                    { id: "reviewScope", label: "Scope of Review", type: "textarea", fullWidth: true },
+                    { id: "methodology", label: "Methodology Used", type: "textarea", fullWidth: true },
+                    { id: "statsOverview", label: "Statistics Overview", type: "textarea", fullWidth: true },
+                    { id: "keyFindings", label: "Key Findings", type: "textarea", fullWidth: true },
+                    { id: "recommendations", label: "Recommendations", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract review report information from this transcript. Return JSON with:
+                    {"reviewScope": "", "methodology": "", "statsOverview": "", "keyFindings": "", "recommendations": ""}`
+            },
+            // Deposition Summary Components
+            "Review deposition transcript": {
+                title: "Deposition Transcript Review",
+                icon: "fas fa-file-alt",
+                fields: [
+                    { id: "deponentName", label: "Deponent Name", type: "text", fullWidth: false },
+                    { id: "depositionDate", label: "Deposition Date", type: "text", fullWidth: false },
+                    { id: "totalPages", label: "Total Pages", type: "text", fullWidth: false },
+                    { id: "durationHours", label: "Duration (hours)", type: "text", fullWidth: false },
+                    { id: "attendingCounsel", label: "Attending Counsel", type: "textarea", fullWidth: true },
+                    { id: "initialImpressions", label: "Initial Impressions", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract deposition review information from this transcript. Return JSON with:
+                    {"deponentName": "", "depositionDate": "", "totalPages": "", "durationHours": "", "attendingCounsel": "", "initialImpressions": ""}`
+            },
+            "Identify key testimony sections": {
+                title: "Key Testimony Sections",
+                icon: "fas fa-bookmark",
+                fields: [
+                    { id: "pageLineRefs", label: "Page:Line References", type: "textarea", fullWidth: true },
+                    { id: "keyAdmissions", label: "Key Admissions", type: "textarea", fullWidth: true },
+                    { id: "helpfulTestimony", label: "Helpful Testimony", type: "textarea", fullWidth: true },
+                    { id: "damagingTestimony", label: "Damaging Testimony", type: "textarea", fullWidth: true },
+                    { id: "topicsCovered", label: "Topics Covered", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract key testimony sections from this transcript. Return JSON with:
+                    {"pageLineRefs": "", "keyAdmissions": "", "helpfulTestimony": "", "damagingTestimony": "", "topicsCovered": ""}`
+            },
+            "Highlight admissions and contradictions": {
+                title: "Admissions & Contradictions",
+                icon: "fas fa-exclamation-triangle",
+                fields: [
+                    { id: "admissionsList", label: "Admissions", type: "textarea", fullWidth: true },
+                    { id: "contradictions", label: "Contradictions", type: "textarea", fullWidth: true },
+                    { id: "priorInconsistent", label: "Prior Inconsistent Statements", type: "textarea", fullWidth: true },
+                    { id: "impeachmentOpportunities", label: "Impeachment Opportunities", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract admissions and contradictions from this transcript. Return JSON with:
+                    {"admissionsList": "", "contradictions": "", "priorInconsistent": "", "impeachmentOpportunities": ""}`
+            },
+            "Note objections and rulings": {
+                title: "Objections & Rulings",
+                icon: "fas fa-hand-paper",
+                fields: [
+                    { id: "objectionsRaised", label: "Objections Raised", type: "textarea", fullWidth: true },
+                    { id: "objectingParty", label: "Objecting Party", type: "text", fullWidth: true },
+                    { id: "rulings", label: "Rulings (if any)", type: "textarea", fullWidth: true },
+                    { id: "instructionsToWitness", label: "Instructions to Witness", type: "textarea", fullWidth: true },
+                    { id: "mattersReserved", label: "Matters Reserved", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract objections and rulings from this transcript. Return JSON with:
+                    {"objectionsRaised": "", "objectingParty": "", "rulings": "", "instructionsToWitness": "", "mattersReserved": ""}`
+            },
+            "Extract quotes for potential use": {
+                title: "Quotable Testimony",
+                icon: "fas fa-quote-left",
+                fields: [
+                    { id: "quote1", label: "Key Quote 1 (with page:line)", type: "textarea", fullWidth: true },
+                    { id: "quote2", label: "Key Quote 2 (with page:line)", type: "textarea", fullWidth: true },
+                    { id: "quote3", label: "Key Quote 3 (with page:line)", type: "textarea", fullWidth: true },
+                    { id: "quoteContext", label: "Context for Quotes", type: "textarea", fullWidth: true },
+                    { id: "potentialUse", label: "Potential Use at Trial", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract quotable testimony from this transcript. Return JSON with:
+                    {"quote1": "", "quote2": "", "quote3": "", "quoteContext": "", "potentialUse": ""}`
+            },
+            "Summarize each major topic": {
+                title: "Topic Summary",
+                icon: "fas fa-list-alt",
+                fields: [
+                    { id: "topicName", label: "Topic Name", type: "text", fullWidth: true },
+                    { id: "pageRange", label: "Page Range", type: "text", fullWidth: false },
+                    { id: "lineRange", label: "Line Range", type: "text", fullWidth: false },
+                    { id: "topicSummary", label: "Summary", type: "textarea", fullWidth: true },
+                    { id: "keyPoints", label: "Key Points", type: "textarea", fullWidth: true },
+                    { id: "caseSignificance", label: "Significance to Case", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract topic summary from this transcript. Return JSON with:
+                    {"topicName": "", "pageRange": "", "lineRange": "", "topicSummary": "", "keyPoints": "", "caseSignificance": ""}`
+            },
+            "Create index of important topics": {
+                title: "Topic Index",
+                icon: "fas fa-list-ol",
+                fields: [
+                    { id: "topicList", label: "Topic List with Page References", type: "textarea", fullWidth: true },
+                    { id: "witnessBackground", label: "Witness Background (pages)", type: "text", fullWidth: true },
+                    { id: "factualIssues", label: "Factual Issues (pages)", type: "text", fullWidth: true },
+                    { id: "damagesDiscussed", label: "Damages Discussed (pages)", type: "text", fullWidth: true },
+                    { id: "otherTopics", label: "Other Key Topics", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract topic index from this transcript. Return JSON with:
+                    {"topicList": "", "witnessBackground": "", "factualIssues": "", "damagesDiscussed": "", "otherTopics": ""}`
+            },
+            "Cross-reference with other evidence": {
+                title: "Evidence Cross-Reference",
+                icon: "fas fa-link",
+                fields: [
+                    { id: "relatedDocuments", label: "Related Documents", type: "textarea", fullWidth: true },
+                    { id: "otherDepositions", label: "Other Depositions Referenced", type: "textarea", fullWidth: true },
+                    { id: "physicalEvidence", label: "Physical Evidence", type: "textarea", fullWidth: true },
+                    { id: "consistencies", label: "Consistencies with Other Evidence", type: "textarea", fullWidth: true },
+                    { id: "discrepancies", label: "Discrepancies Found", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract cross-reference information from this transcript. Return JSON with:
+                    {"relatedDocuments": "", "otherDepositions": "", "physicalEvidence": "", "consistencies": "", "discrepancies": ""}`
+            },
+            "Format for attorney review": {
+                title: "Attorney Review Format",
+                icon: "fas fa-user-tie",
+                fields: [
+                    { id: "executiveSummary", label: "Executive Summary", type: "textarea", fullWidth: true },
+                    { id: "criticalFindings", label: "Critical Findings", type: "textarea", fullWidth: true },
+                    { id: "actionItems", label: "Action Items", type: "textarea", fullWidth: true },
+                    { id: "followUpNeeded", label: "Follow-Up Needed", type: "textarea", fullWidth: true },
+                    { id: "trialPrep", label: "Trial Preparation Notes", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract attorney review information from this transcript. Return JSON with:
+                    {"executiveSummary": "", "criticalFindings": "", "actionItems": "", "followUpNeeded": "", "trialPrep": ""}`
+            },
+            "Prepare condensed version for trial": {
+                title: "Trial Condensed Version",
+                icon: "fas fa-compress-alt",
+                fields: [
+                    { id: "trialExcerpts", label: "Trial Excerpts (page:line)", type: "textarea", fullWidth: true },
+                    { id: "designations", label: "Designations", type: "textarea", fullWidth: true },
+                    { id: "counterDesignations", label: "Anticipated Counter-Designations", type: "textarea", fullWidth: true },
+                    { id: "videoClips", label: "Video Clips to Prepare", type: "textarea", fullWidth: true },
+                    { id: "exhibitsTie", label: "Exhibits to Tie In", type: "textarea", fullWidth: true }
+                ],
+                extractionPrompt: `Extract trial preparation information from this transcript. Return JSON with:
+                    {"trialExcerpts": "", "designations": "", "counterDesignations": "", "videoClips": "", "exhibitsTie": ""}`
+            }
+        };
+
+        // Default form for components without specific definitions
+        const defaultComponentForm = {
+            title: "Component Information",
+            icon: "fas fa-clipboard",
+            fields: [
+                { id: "notes", label: "Notes", type: "textarea", fullWidth: true },
+                { id: "keyPoints", label: "Key Points", type: "textarea", fullWidth: true },
+                { id: "actionItems", label: "Action Items", type: "textarea", fullWidth: true },
+                { id: "references", label: "References", type: "textarea", fullWidth: true }
+            ],
+            extractionPrompt: `Extract relevant information from this transcript. Return JSON with:
+                {"notes": "", "keyPoints": "", "actionItems": "", "references": ""}`
+        };
+
+        // Open side panel for a component
+        function openComponentPanel(componentName) {
+            currentComponent = componentName;
+            const formDef = componentForms[componentName] || defaultComponentForm;
+
+            // Set title
+            document.getElementById('sidePanelTitle').textContent = componentName;
+            document.getElementById('componentFormTitle').textContent = formDef.title;
+
+            // Generate form HTML
+            const formContainer = document.getElementById('componentFormContainer');
+            formContainer.innerHTML = generateFormHTML(formDef.fields);
+
+            // Load existing data if any
+            if (componentDataStore[componentName]) {
+                loadComponentFormData(componentDataStore[componentName]);
+            }
+
+            // Reset audio state
+            resetComponentAudioState();
+
+            // Show panel
+            document.getElementById('sidePanelOverlay').classList.add('active');
+            document.getElementById('sidePanel').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidePanel() {
+            document.getElementById('sidePanelOverlay').classList.remove('active');
+            document.getElementById('sidePanel').classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Stop any recording
+            if (componentMediaRecorder && componentMediaRecorder.state === 'recording') {
+                componentMediaRecorder.stop();
+            }
+            clearInterval(componentRecordingTimer);
+        }
+
+        function generateFormHTML(fields) {
+            let html = '<div class="component-form-grid two-col">';
+            fields.forEach(field => {
+                const fullWidthClass = field.fullWidth ? ' full-width' : '';
+                html += `<div class="component-field${fullWidthClass}">`;
+                html += `<label for="cf_${field.id}">${field.label}</label>`;
+
+                if (field.type === 'textarea') {
+                    html += `<textarea id="cf_${field.id}" placeholder="Enter ${field.label.toLowerCase()}..."></textarea>`;
+                } else if (field.type === 'select') {
+                    html += `<select id="cf_${field.id}">`;
+                    html += `<option value="">Select...</option>`;
+                    (field.options || []).forEach(opt => {
+                        html += `<option value="${opt}">${opt}</option>`;
+                    });
+                    html += `</select>`;
+                } else {
+                    html += `<input type="${field.type || 'text'}" id="cf_${field.id}" placeholder="Enter ${field.label.toLowerCase()}...">`;
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function loadComponentFormData(data) {
+            Object.keys(data).forEach(key => {
+                const el = document.getElementById(`cf_${key}`);
+                if (el) el.value = data[key];
+            });
+        }
+
+        function resetComponentAudioState() {
+            componentAudioFile = null;
+            componentRecordedBlob = null;
+            componentRecordingSeconds = 0;
+
+            document.getElementById('componentDropZone').style.display = 'block';
+            document.getElementById('componentSelectedFile').style.display = 'none';
+            document.getElementById('componentTranscriptArea').style.display = 'none';
+            document.getElementById('componentTranscriptText').value = '';
+            document.getElementById('componentPasteTranscript').value = '';
+            document.getElementById('componentRecordingTime').textContent = '00:00';
+            document.getElementById('componentRecordingStatus').textContent = 'Click to record';
+            document.getElementById('componentRecordBtn').classList.remove('recording');
+            document.getElementById('componentRecordIcon').className = 'fas fa-microphone';
+
+            // Reset tabs
+            switchComponentTab('upload');
+        }
+
+        function switchComponentTab(tabName) {
+            document.querySelectorAll('.component-audio-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.component-tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[data-ctab="${tabName}"]`).classList.add('active');
+            document.getElementById(`ctab-${tabName}`).classList.add('active');
+        }
+
+        // File upload for component panel
+        function setupComponentFileUpload() {
+            const dropZone = document.getElementById('componentDropZone');
+            const fileInput = document.getElementById('componentAudioFile');
+
+            if (!dropZone || !fileInput) return;
+
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+                dropZone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); });
+            });
+
+            ['dragenter', 'dragover'].forEach(evt => {
+                dropZone.addEventListener(evt, () => dropZone.classList.add('dragover'));
+            });
+
+            ['dragleave', 'drop'].forEach(evt => {
+                dropZone.addEventListener(evt, () => dropZone.classList.remove('dragover'));
+            });
+
+            dropZone.addEventListener('drop', e => {
+                if (e.dataTransfer.files.length > 0) {
+                    handleComponentFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', e => {
+                if (e.target.files.length > 0) {
+                    handleComponentFile(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleComponentFile(file) {
+            if (file.size > 25 * 1024 * 1024) {
+                showComponentStatus('File too large (max 25MB)', 'error');
+                return;
+            }
+            componentAudioFile = file;
+            componentRecordedBlob = null;
+            document.getElementById('componentFileName').textContent = file.name;
+            document.getElementById('componentDropZone').style.display = 'none';
+            document.getElementById('componentSelectedFile').style.display = 'flex';
+        }
+
+        function removeComponentFile() {
+            componentAudioFile = null;
+            document.getElementById('componentAudioFile').value = '';
+            document.getElementById('componentDropZone').style.display = 'block';
+            document.getElementById('componentSelectedFile').style.display = 'none';
+        }
+
+        // Recording for component panel
+        async function toggleComponentRecording() {
+            const btn = document.getElementById('componentRecordBtn');
+            const icon = document.getElementById('componentRecordIcon');
+            const status = document.getElementById('componentRecordingStatus');
+
+            if (componentMediaRecorder && componentMediaRecorder.state === 'recording') {
+                componentMediaRecorder.stop();
+                btn.classList.remove('recording');
+                icon.className = 'fas fa-microphone';
+                status.textContent = 'Recording saved';
+                clearInterval(componentRecordingTimer);
+            } else {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    componentMediaRecorder = new MediaRecorder(stream);
+                    let chunks = [];
+
+                    componentMediaRecorder.ondataavailable = e => chunks.push(e.data);
+                    componentMediaRecorder.onstop = () => {
+                        componentRecordedBlob = new Blob(chunks, { type: 'audio/webm' });
+                        componentAudioFile = null;
+                        stream.getTracks().forEach(t => t.stop());
+                    };
+
+                    componentMediaRecorder.start();
+                    btn.classList.add('recording');
+                    icon.className = 'fas fa-stop';
+                    status.textContent = 'Recording...';
+                    componentRecordingSeconds = 0;
+
+                    componentRecordingTimer = setInterval(() => {
+                        componentRecordingSeconds++;
+                        const m = Math.floor(componentRecordingSeconds / 60);
+                        const s = componentRecordingSeconds % 60;
+                        document.getElementById('componentRecordingTime').textContent =
+                            `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                        if (componentRecordingSeconds >= 300) toggleComponentRecording();
+                    }, 1000);
+                } catch (err) {
+                    showComponentStatus('Could not access microphone', 'error');
+                }
+            }
+        }
+
+        function useComponentTranscript() {
+            const text = document.getElementById('componentPasteTranscript').value.trim();
+            if (!text) {
+                showComponentStatus('No transcript text provided', 'error');
+                return;
+            }
+            document.getElementById('componentTranscriptText').value = text;
+            document.getElementById('componentTranscriptArea').style.display = 'block';
+        }
+
+        async function transcribeComponentAudio() {
+            const openaiKey = localStorage.getItem('paralegal_openai_key');
+            if (!openaiKey) {
+                showComponentStatus('Please add OpenAI API key in Settings', 'error');
+                return;
+            }
+
+            const audio = componentAudioFile || componentRecordedBlob;
+            if (!audio) {
+                showComponentStatus('Please upload or record audio first', 'error');
+                return;
+            }
+
+            showProcessing('Transcribing Audio', 'Converting speech to text...');
+
+            try {
+                const formData = new FormData();
+                formData.append('file', audio, audio.name || 'recording.webm');
+                formData.append('model', 'whisper-1');
+
+                const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${openaiKey}` },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || 'Transcription failed');
+                }
+
+                const result = await response.json();
+                document.getElementById('componentTranscriptText').value = result.text;
+                document.getElementById('componentTranscriptArea').style.display = 'block';
+                hideProcessing();
+                showComponentStatus('Transcription complete!', 'success');
+            } catch (err) {
+                hideProcessing();
+                showComponentStatus(`Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function extractComponentInfo() {
+            const transcript = document.getElementById('componentTranscriptText').value.trim();
+            if (!transcript) {
+                showComponentStatus('No transcript to extract from', 'error');
+                return;
+            }
+
+            const formDef = componentForms[currentComponent] || defaultComponentForm;
+            const extractionModel = localStorage.getItem('paralegal_extraction_model') || 'gpt-4o';
+            const isClaudeModel = extractionModel.startsWith('claude');
+            const apiKey = isClaudeModel
+                ? localStorage.getItem('paralegal_anthropic_key')
+                : localStorage.getItem('paralegal_openai_key');
+
+            if (!apiKey) {
+                showComponentStatus(`Please add ${isClaudeModel ? 'Anthropic' : 'OpenAI'} API key`, 'error');
+                return;
+            }
+
+            showProcessing('Extracting Information', `Analyzing with ${extractionModel}...`);
+
+            const prompt = `You are a legal assistant. Analyze the following transcript for the task: "${currentComponent}".
+
+${formDef.extractionPrompt}
+
+TRANSCRIPT:
+${transcript}
+
+Respond with ONLY valid JSON, no additional text.`;
+
+            try {
+                let result;
+
+                if (isClaudeModel) {
+                    const modelId = extractionModel === 'claude-sonnet' ? 'claude-sonnet-4-20250514' : 'claude-3-5-haiku-20241022';
+                    const response = await fetch('https://api.anthropic.com/v1/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-api-key': apiKey,
+                            'anthropic-version': '2023-06-01',
+                            'anthropic-dangerous-direct-browser-access': 'true'
+                        },
+                        body: JSON.stringify({
+                            model: modelId,
+                            max_tokens: 4096,
+                            messages: [{ role: 'user', content: prompt }]
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Extraction failed');
+                    const data = await response.json();
+                    result = JSON.parse(data.content[0].text);
+                } else {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: extractionModel,
+                            messages: [{ role: 'user', content: prompt }],
+                            response_format: { type: 'json_object' }
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Extraction failed');
+                    const data = await response.json();
+                    result = JSON.parse(data.choices[0].message.content);
+                }
+
+                loadComponentFormData(result);
+                hideProcessing();
+                showComponentStatus('Information extracted!', 'success');
+            } catch (err) {
+                hideProcessing();
+                showComponentStatus(`Error: ${err.message}`, 'error');
+            }
+        }
+
+        function getComponentFormData() {
+            const formDef = componentForms[currentComponent] || defaultComponentForm;
+            const data = {};
+            formDef.fields.forEach(field => {
+                const el = document.getElementById(`cf_${field.id}`);
+                if (el) data[field.id] = el.value;
+            });
+            return data;
+        }
+
+        function saveComponentData() {
+            if (!currentComponent) return;
+            const data = getComponentFormData();
+            componentDataStore[currentComponent] = data;
+
+            // Mark component as having data in the breakdown list
+            document.querySelectorAll('.component-item').forEach(item => {
+                if (item.querySelector('.component-text')?.textContent === currentComponent) {
+                    item.classList.add('has-data');
+                }
+            });
+
+            showComponentStatus('Data saved!', 'success');
+        }
+
+        function copyComponentData() {
+            const data = getComponentFormData();
+            const formDef = componentForms[currentComponent] || defaultComponentForm;
+
+            let text = `${currentComponent}\n${'='.repeat(currentComponent.length)}\n\n`;
+            formDef.fields.forEach(field => {
+                if (data[field.id]) {
+                    text += `${field.label}:\n${data[field.id]}\n\n`;
+                }
+            });
+
+            navigator.clipboard.writeText(text).then(() => {
+                showComponentStatus('Copied to clipboard!', 'success');
+            });
+        }
+
+        function clearComponentForm() {
+            if (confirm('Clear all fields?')) {
+                const formDef = componentForms[currentComponent] || defaultComponentForm;
+                formDef.fields.forEach(field => {
+                    const el = document.getElementById(`cf_${field.id}`);
+                    if (el) el.value = '';
+                });
+            }
+        }
+
+        function showComponentStatus(msg, type) {
+            const el = document.getElementById('componentStatus');
+            el.innerHTML = `<i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i> ${msg}`;
+            el.className = `component-status show ${type}`;
+            setTimeout(() => el.classList.remove('show'), 4000);
+        }
 
         // ============================================
         // ORIGINAL TASK DECONSTRUCTION FUNCTIONALITY
@@ -2057,34 +3314,44 @@ Extracted: ${new Date(data.extractedAt).toLocaleString()}`;
         function createBreakdownLevel(title, components, level) {
             const levelDiv = document.createElement('div');
             levelDiv.className = 'breakdown-level';
-            
+
             const headerDiv = document.createElement('div');
             headerDiv.className = 'level-header';
-            
+
             const titleSpan = document.createElement('span');
             titleSpan.className = 'level-title';
             titleSpan.textContent = title;
-            
+
             const countSpan = document.createElement('span');
             countSpan.className = 'level-count';
             countSpan.textContent = `${components.length} components`;
-            
+
             headerDiv.appendChild(titleSpan);
             headerDiv.appendChild(countSpan);
-            
+
             const listDiv = document.createElement('div');
             listDiv.className = 'component-list';
-            
+
             components.forEach(component => {
                 const componentDiv = document.createElement('div');
-                componentDiv.className = 'component-item';
-                
+                componentDiv.className = 'component-item clickable';
+
+                // Make component clickable to open side panel
+                componentDiv.addEventListener('click', () => {
+                    openComponentPanel(component);
+                });
+
+                // Add has-data class if component has saved data
+                if (componentDataStore[component]) {
+                    componentDiv.classList.add('has-data');
+                }
+
                 const textDiv = document.createElement('div');
                 textDiv.className = 'component-text';
                 textDiv.textContent = component;
-                
+
                 componentDiv.appendChild(textDiv);
-                
+
                 // Randomly assign some components as automatable
                 if (Math.random() > 0.6) {
                     const badge = document.createElement('span');
@@ -2092,13 +3359,13 @@ Extracted: ${new Date(data.extractedAt).toLocaleString()}`;
                     badge.textContent = 'Automatable';
                     componentDiv.appendChild(badge);
                 }
-                
+
                 listDiv.appendChild(componentDiv);
             });
-            
+
             levelDiv.appendChild(headerDiv);
             levelDiv.appendChild(listDiv);
-            
+
             breakdownContainer.appendChild(levelDiv);
         }
 
