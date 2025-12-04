@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paralegal Task Deconstruction Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            height: 100%;
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .task-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .task-input-container label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        textarea {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+        
+        .examples {
+            margin-top: 15px;
+        }
+        
+        .examples h3 {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+        }
+        
+        .example-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .example-btn {
+            background-color: var(--light-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .example-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-deconstruct {
+            background-color: var(--accent-color);
+        }
+        
+        .btn-deconstruct:hover {
+            background-color: #c0392b;
+        }
+        
+        .results-area {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .task-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .breakdown-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .breakdown-level {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .level-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .level-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .level-count {
+            background-color: var(--secondary-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .component-list {
+            padding-left: 20px;
+        }
+        
+        .component-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .component-item:hover {
+            border-left-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+        
+        .component-text {
+            flex-grow: 1;
+        }
+        
+        .automation-badge {
+            background-color: var(--success-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .automation-analysis {
+            background-color: #f0f7ff;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .automation-analysis h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .analysis-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .analysis-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .analysis-card i {
+            color: var(--secondary-color);
+        }
+        
+        .analysis-card ul {
+            padding-left: 20px;
+        }
+        
+        .analysis-card li {
+            margin-bottom: 8px;
+        }
+        
+        .automation-potential {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .potential-bar {
+            height: 10px;
+            background-color: #eee;
+            border-radius: 5px;
+            flex-grow: 1;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+        
+        .potential-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .instructions {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid #ffc107;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .instructions h3 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tasks"></i> Paralegal Task Deconstruction Tool</h1>
+            <p class="subtitle">Demonstrate how legal tasks can be broken down into automatable components. Enter a paralegal task to see its detailed breakdown and automation potential.</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2><i class="fas fa-keyboard"></i> Enter Paralegal Task</h2>
+                <div class="input-area">
+                    <div class="task-input-container">
+                        <label for="taskInput">Describe a paralegal task you'd like to deconstruct:</label>
+                        <textarea id="taskInput" placeholder="Example: Draft a complaint for a civil lawsuit..."></textarea>
+                    </div>
+                    
+                    <div class="examples">
+                        <h3>Try these example tasks:</h3>
+                        <div class="example-list">
+                            <button class="example-btn" data-example="Draft a complaint for a civil lawsuit">Draft Complaint</button>
+                            <button class="example-btn" data-example="Conduct document review for discovery">Document Review</button>
+                            <button class="example-btn" data-example="Prepare deposition summaries">Deposition Summaries</button>
+                            <button class="example-btn" data-example="File court documents electronically">E-Filing</button>
+                            <button class="example-btn" data-example="Prepare trial exhibit binders">Trial Exhibits</button>
+                        </div>
+                    </div>
+                    
+                    <button id="deconstructBtn" class="btn btn-deconstruct">
+                        <i class="fas fa-cogs"></i> Deconstruct Task
+                    </button>
+                </div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> How It Works</h3>
+                    <p>This tool demonstrates how complex paralegal tasks can be broken down into smaller, manageable components. Each component is analyzed for automation potential, showing how legal technology can streamline paralegal work.</p>
+                </div>
+            </div>
+            
+            <div class="card results-area">
+                <h2><i class="fas fa-project-diagram"></i> Task Breakdown</h2>
+                
+                <div class="loading" id="loadingIndicator">
+                    <div class="loading-spinner"></div>
+                    <p>Analyzing task components...</p>
+                </div>
+                
+                <div id="resultsContainer">
+                    <div class="task-display" id="taskDisplay">
+                        <p><strong>Your Task:</strong> <span id="currentTask">Enter a task above to see the breakdown</span></p>
+                    </div>
+                    
+                    <div class="breakdown-container" id="breakdownContainer">
+                        <p class="instructions">The task breakdown will appear here after you click "Deconstruct Task".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="automation-analysis" id="automationAnalysis" style="display: none;">
+            <h2><i class="fas fa-robot"></i> Automation Analysis</h2>
+            <p>Based on the task breakdown, here's how automation could be implemented:</p>
+            
+            <div class="analysis-grid" id="analysisGrid">
+                <!-- Analysis cards will be inserted here -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>Paralegal Task Deconstruction Tool | Designed to demonstrate task analysis for automation potential</p>
+            <p>This tool is for demonstration purposes and does not constitute legal advice.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Example tasks data
+        const exampleTasks = {
+            "Draft a complaint for a civil lawsuit": {
+                level1: [
+                    "Review case facts and client information",
+                    "Identify proper jurisdiction and venue",
+                    "Determine causes of action",
+                    "Research applicable laws and precedents",
+                    "Draft caption and parties section",
+                    "Write factual allegations",
+                    "Formulate legal claims",
+                    "Draft prayer for relief",
+                    "Include verification if required",
+                    "Format according to court rules"
+                ],
+                level2: {
+                    "Draft factual allegations": [
+                        "Chronologically organize events",
+                        "Include specific dates and locations",
+                        "Identify all relevant parties",
+                        "Describe actions and consequences",
+                        "Cite supporting evidence",
+                        "Ensure factual consistency"
+                    ],
+                    "Formulate legal claims": [
+                        "Match facts to legal elements",
+                        "Cite relevant statutes",
+                        "Reference applicable case law",
+                        "Avoid redundant claims",
+                        "Check statute of limitations",
+                        "Include all necessary parties"
+                    ]
+                },
+                automation: [
+                    {
+                        title: "Document Assembly",
+                        icon: "fas fa-file-contract",
+                        description: "Automate repetitive drafting tasks",
+                        components: ["Draft caption and parties section", "Format according to court rules", "Include verification if required"],
+                        tools: ["Document automation software", "Template libraries", "Style checkers"],
+                        potential: 85
+                    },
+                    {
+                        title: "Legal Research",
+                        icon: "fas fa-search",
+                        description: "Streamline research processes",
+                        components: ["Research applicable laws and precedents", "Cite relevant statutes", "Reference applicable case law"],
+                        tools: ["AI-powered research tools", "Citation generators", "Statute databases"],
+                        potential: 75
+                    },
+                    {
+                        title: "Fact Organization",
+                        icon: "fas fa-sitemap",
+                        description: "Structure case facts efficiently",
+                        components: ["Chronologically organize events", "Identify all relevant parties", "Ensure factual consistency"],
+                        tools: ["Case management systems", "Timeline builders", "Fact organization software"],
+                        potential: 70
+                    }
+                ]
+            },
+            "Conduct document review for discovery": {
+                level1: [
+                    "Receive document production from opposing party",
+                    "Organize documents by source and date",
+                    "Apply relevance criteria to filter documents",
+                    "Identify privileged materials",
+                    "Flag key documents for case strategy",
+                    "Code documents for easy retrieval",
+                    "Prepare document summaries",
+                    "Identify patterns and connections",
+                    "Prepare privilege log",
+                    "Generate review report"
+                ],
+                level2: {
+                    "Apply relevance criteria": [
+                        "Review document against discovery requests",
+                        "Identify responsive materials",
+                        "Separate non-responsive documents",
+                        "Apply keyword filters",
+                        "Check for date range relevance",
+                        "Evaluate subject matter relevance"
+                    ],
+                    "Code documents for easy retrieval": [
+                        "Assign unique identifiers",
+                        "Apply issue tags",
+                        "Note key facts or evidence",
+                        "Mark witness connections",
+                        "Flag for attorney review",
+                        "Create cross-references"
+                    ]
+                },
+                automation: [
+                    {
+                        title: "Document Analysis",
+                        icon: "fas fa-file-alt",
+                        description: "Automate initial document screening",
+                        components: ["Apply keyword filters", "Check for date range relevance", "Separate non-responsive documents"],
+                        tools: ["AI document review platforms", "Predictive coding", "Text analytics tools"],
+                        potential: 90
+                    },
+                    {
+                        title: "Organization & Tagging",
+                        icon: "fas fa-tags",
+                        description: "Systematize document categorization",
+                        components: ["Assign unique identifiers", "Apply issue tags", "Create cross-references"],
+                        tools: ["Document management systems", "Automated tagging software", "Metadata extractors"],
+                        potential: 80
+                    },
+                    {
+                        title: "Reporting",
+                        icon: "fas fa-chart-bar",
+                        description: "Generate review summaries automatically",
+                        components: ["Prepare document summaries", "Generate review report", "Identify patterns and connections"],
+                        tools: ["Report generators", "Data visualization tools", "Analytics dashboards"],
+                        potential: 75
+                    }
+                ]
+            },
+            "Prepare deposition summaries": {
+                level1: [
+                    "Review deposition transcript",
+                    "Identify key testimony sections",
+                    "Highlight admissions and contradictions",
+                    "Note objections and rulings",
+                    "Extract quotes for potential use",
+                    "Summarize each major topic",
+                    "Create index of important topics",
+                    "Cross-reference with other evidence",
+                    "Format for attorney review",
+                    "Prepare condensed version for trial"
+                ],
+                level2: {
+                    "Identify key testimony sections": [
+                        "Locate answers to important questions",
+                        "Find admissions against interest",
+                        "Identify inconsistencies in testimony",
+                        "Note evasive or non-responsive answers",
+                        "Highlight helpful statements",
+                        "Flag damaging testimony"
+                    ],
+                    "Summarize each major topic": [
+                        "Paraphrase lengthy testimony",
+                        "Maintain original meaning",
+                        "Include page and line references",
+                        "Note attorney questions",
+                        "Connect related testimony",
+                        "Indicate significance to case"
+                    ]
+                },
+                automation: [
+                    {
+                        title: "Transcript Analysis",
+                        icon: "fas fa-comment-dots",
+                        description: "Automate review of deposition transcripts",
+                        components: ["Identify admissions and contradictions", "Find inconsistencies in testimony", "Highlight helpful statements"],
+                        tools: ["AI transcript analyzers", "Natural language processing", "Keyword highlighters"],
+                        potential: 80
+                    },
+                    {
+                        title: "Summary Generation",
+                        icon: "fas fa-file-signature",
+                        description: "Create draft summaries automatically",
+                        components: ["Paraphrase lengthy testimony", "Create index of important topics", "Format for attorney review"],
+                        tools: ["Summary generation software", "Template-based summarizers", "Automated formatting tools"],
+                        potential: 70
+                    },
+                    {
+                        title: "Cross-referencing",
+                        icon: "fas fa-link",
+                        description: "Connect testimony to other evidence",
+                        components: ["Cross-reference with other evidence", "Connect related testimony", "Flag for attorney review"],
+                        tools: ["Case linking software", "Evidence correlation tools", "Database connectors"],
+                        potential: 65
+                    }
+                ]
+            }
+        };
+
+        // DOM elements
+        const taskInput = document.getElementById('taskInput');
+        const deconstructBtn = document.getElementById('deconstructBtn');
+        const exampleBtns = document.querySelectorAll('.example-btn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const taskDisplay = document.getElementById('currentTask');
+        const breakdownContainer = document.getElementById('breakdownContainer');
+        const automationAnalysis = document.getElementById('automationAnalysis');
+        const analysisGrid = document.getElementById('analysisGrid');
+
+        // Event listeners
+        deconstructBtn.addEventListener('click', deconstructTask);
+        
+        exampleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const exampleText = this.getAttribute('data-example');
+                taskInput.value = exampleText;
+                deconstructTask();
+            });
+        });
+
+        // Main function to deconstruct the task
+        function deconstructTask() {
+            const task = taskInput.value.trim();
+            
+            if (!task) {
+                alert("Please enter a task to deconstruct.");
+                taskInput.focus();
+                return;
+            }
+            
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            automationAnalysis.style.display = 'none';
+            
+            // Simulate processing time
+            setTimeout(() => {
+                processTask(task);
+                loadingIndicator.style.display = 'none';
+                resultsContainer.style.display = 'block';
+            }, 800);
+        }
+
+        function processTask(task) {
+            // Display the task
+            taskDisplay.textContent = task;
+            
+            // Clear previous breakdown
+            breakdownContainer.innerHTML = '';
+            
+            // Check if task is in our examples
+            let taskData;
+            if (exampleTasks[task]) {
+                taskData = exampleTasks[task];
+            } else {
+                // Generate generic breakdown for unknown tasks
+                taskData = generateGenericBreakdown(task);
+            }
+            
+            // Create level 1 breakdown
+            createBreakdownLevel("Primary Components", taskData.level1, 1);
+            
+            // Create level 2 breakdown if available
+            if (taskData.level2) {
+                for (const [category, components] of Object.entries(taskData.level2)) {
+                    createBreakdownLevel(category, components, 2);
+                }
+            }
+            
+            // Add automation analysis if available
+            if (taskData.automation) {
+                createAutomationAnalysis(taskData.automation);
+                automationAnalysis.style.display = 'block';
+            }
+            
+            // Scroll to results
+            breakdownContainer.scrollTop = 0;
+        }
+
+        function createBreakdownLevel(title, components, level) {
+            const levelDiv = document.createElement('div');
+            levelDiv.className = 'breakdown-level';
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'level-header';
+            
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'level-title';
+            titleSpan.textContent = title;
+            
+            const countSpan = document.createElement('span');
+            countSpan.className = 'level-count';
+            countSpan.textContent = `${components.length} components`;
+            
+            headerDiv.appendChild(titleSpan);
+            headerDiv.appendChild(countSpan);
+            
+            const listDiv = document.createElement('div');
+            listDiv.className = 'component-list';
+            
+            components.forEach(component => {
+                const componentDiv = document.createElement('div');
+                componentDiv.className = 'component-item';
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'component-text';
+                textDiv.textContent = component;
+                
+                componentDiv.appendChild(textDiv);
+                
+                // Randomly assign some components as automatable
+                if (Math.random() > 0.6) {
+                    const badge = document.createElement('span');
+                    badge.className = 'automation-badge';
+                    badge.textContent = 'Automatable';
+                    componentDiv.appendChild(badge);
+                }
+                
+                listDiv.appendChild(componentDiv);
+            });
+            
+            levelDiv.appendChild(headerDiv);
+            levelDiv.appendChild(listDiv);
+            
+            breakdownContainer.appendChild(levelDiv);
+        }
+
+        function createAutomationAnalysis(automationData) {
+            analysisGrid.innerHTML = '';
+            
+            automationData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'analysis-card';
+                
+                card.innerHTML = `
+                    <h3><i class="${item.icon}"></i> ${item.title}</h3>
+                    <p>${item.description}</p>
+                    <p><strong>Components automated:</strong></p>
+                    <ul>
+                        ${item.components.map(comp => `<li>${comp}</li>`).join('')}
+                    </ul>
+                    <p><strong>Tools needed:</strong> ${item.tools.join(', ')}</p>
+                    <div class="automation-potential">
+                        <div class="potential-bar">
+                            <div class="potential-fill" style="width: ${item.potential}%"></div>
+                        </div>
+                        <span>${item.potential}% automatable</span>
+                    </div>
+                `;
+                
+                analysisGrid.appendChild(card);
+            });
+        }
+
+        function generateGenericBreakdown(task) {
+            // Generate a generic breakdown for tasks not in our examples
+            const words = task.split(' ');
+            const action = words[0]; // First word is usually the action
+            
+            const genericBreakdown = {
+                level1: [
+                    `Gather requirements for ${task.toLowerCase()}`,
+                    `Research relevant laws and regulations`,
+                    `Collect necessary documents and information`,
+                    `Analyze facts and apply to legal standards`,
+                    `Draft initial ${action === 'Draft' ? 'document' : 'materials'}`,
+                    `Review for accuracy and completeness`,
+                    `Format according to legal standards`,
+                    `Obtain necessary approvals`,
+                    `Finalize and prepare for distribution`,
+                    `Document the process for future reference`
+                ],
+                level2: {
+                    "Research phase": [
+                        "Identify applicable jurisdiction",
+                        "Review relevant statutes",
+                        "Check for recent case law",
+                        "Consult secondary sources",
+                        "Verify procedural requirements",
+                        "Document research findings"
+                    ],
+                    "Drafting phase": [
+                        "Create outline of key points",
+                        "Incorporate legal standards",
+                        "Apply facts to law",
+                        "Include necessary elements",
+                        "Use appropriate legal language",
+                        "Cite authorities properly"
+                    ]
+                },
+                automation: [
+                    {
+                        title: "Research Automation",
+                        icon: "fas fa-search",
+                        description: "Streamline legal research processes",
+                        components: ["Research relevant laws and regulations", "Check for recent case law", "Document research findings"],
+                        tools: ["AI research assistants", "Legal databases", "Citation managers"],
+                        potential: 70
+                    },
+                    {
+                        title: "Document Assembly",
+                        icon: "fas fa-file-contract",
+                        description: "Automate document creation",
+                        components: ["Draft initial materials", "Format according to legal standards", "Include necessary elements"],
+                        tools: ["Document automation software", "Template systems", "Style checkers"],
+                        potential: 75
+                    },
+                    {
+                        title: "Process Management",
+                        icon: "fas fa-stream",
+                        description: "Systematize workflow and tracking",
+                        components: ["Document the process for future reference", "Obtain necessary approvals", "Prepare for distribution"],
+                        tools: ["Workflow management systems", "Approval trackers", "Document management platforms"],
+                        potential: 65
+                    }
+                ]
+            };
+            
+            return genericBreakdown;
+        }
+
+        // Initialize with an example
+        document.addEventListener('DOMContentLoaded', function() {
+            taskInput.value = "Draft a complaint for a civil lawsuit";
+            deconstructTask();
+        });
+    </script>
+</body>
+</html>
