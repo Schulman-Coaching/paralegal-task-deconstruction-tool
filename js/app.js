@@ -10,10 +10,12 @@ let appInitialized = false;
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('NY Legal Paralegal Tool initializing...');
 
-    // Initialize Supabase (if configured)
-    const supabaseConfigured = initSupabase();
+    // Check if Supabase is configured
+    const supabaseConfigured = typeof initSupabase === 'function' && isSupabaseConfigured();
 
     if (supabaseConfigured) {
+        // Initialize Supabase (if configured)
+        initSupabase();
         // Check for existing session
         const user = await checkAuth();
         if (user) {
@@ -23,9 +25,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             showAuthScreen();
         }
     } else {
-        console.log('Supabase not configured, running in demo mode');
-        showDemoModeNotice();
-        // In demo mode, show the app directly
+        console.log('Running in demo mode (Supabase not configured)');
+        // In demo mode, show the app directly - no login required
         showAppContent();
     }
 
@@ -65,8 +66,11 @@ function showAppContent() {
     initTaskDeconstruction();
 }
 
-// Show demo mode notice
+// Show demo mode notice (optional - can be enabled if desired)
 function showDemoModeNotice() {
+    // Disabled by default for cleaner demo experience
+    // Uncomment below to show a banner when running in demo mode
+    /*
     const notice = document.createElement('div');
     notice.className = 'demo-banner';
     notice.innerHTML = `
@@ -101,9 +105,8 @@ function showDemoModeNotice() {
     `;
 
     document.body.insertBefore(notice, document.body.firstChild);
-
-    // Adjust body padding
     document.body.style.paddingTop = '50px';
+    */
 }
 
 // Set up authentication forms
